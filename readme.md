@@ -13,7 +13,9 @@ They are independent and easy to use.
 ## Dyplot
 
 Using dyplot is easy!
+
 `
+
     import dyplot
     import time
     d = dyplot.DynamicPlot(window_x = 30, title = 'Trigonometry', xlabel = 'X', ylabel= 'Y')
@@ -31,6 +33,7 @@ Using dyplot is easy!
 The same goes for dyplot3d!
 
 `
+
     import time
     lims = [-5, 5, -5, 5, -5, 5]
 
