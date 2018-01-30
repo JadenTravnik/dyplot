@@ -32,12 +32,11 @@ The same goes for dyplot3d!
 
 `
 import time
-# define the viewer lims [xmin, xmax, ymin, ymax, zmin, zmax]
 lims = [-5, 5, -5, 5, -5, 5]
 
 d3 = dynamic_3d_plotter(lims)
 update_rate = .1
-# use any points that make a 3d object, here its a cube
+
 points = np.array([[-1, -1, -1],
                   [1, -1, -1 ],
                   [1, 1, -1],
@@ -47,7 +46,6 @@ points = np.array([[-1, -1, -1],
                   [1, 1, 1],
                   [-1, 1, 1]])
 
-# using some test data we can rotate the cube
 for i in np.arange(0, np.pi*4, np.pi*.1):
     theta, phi, psi = i, 1.4*i, .2*i
     Rx = np.array([
@@ -65,12 +63,9 @@ for i in np.arange(0, np.pi*4, np.pi*.1):
         [-np.sin(psi), np.cos(psi), 0],
         [0, 0, 1]
     ])
-    
-    # make a rotation matrix
+
     R = np.matmul(np.matmul(Rz, Ry), Rx)
 
-    # update the plot
     d3.update(np.matmul(points,R))
-    # This is to control the speed of the update
     time.sleep(update_rate)
 `
