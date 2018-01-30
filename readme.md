@@ -14,8 +14,6 @@ They are independent and easy to use.
 
 Using dyplot is easy!
 
-`
-
     import dyplot
     import time
     d = dyplot.DynamicPlot(window_x = 30, title = 'Trigonometry', xlabel = 'X', ylabel= 'Y')
@@ -26,13 +24,12 @@ Using dyplot is easy!
     for i in np.arange(0,40, .2):
         d.update(i, [np.sin(i), np.cos(i), np.cos(i/.5)])
         time.sleep(.01)
-`
+
 
 ## Dyplot3d
 
 The same goes for dyplot3d!
 
-`
 
     import time
     lims = [-5, 5, -5, 5, -5, 5]
@@ -71,4 +68,3 @@ The same goes for dyplot3d!
 
         d3.update(np.matmul(points,R))
         time.sleep(update_rate)
-`
