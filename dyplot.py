@@ -34,40 +34,51 @@ class DynamicLine():
 '''
 class DynamicPlot():
 
-    def __init__(self, title = None, xlabel = None, ylabel = None, window_x = None):
+    def __init__(self, title = None, xlabel = None, ylabel = None, window_x = None, num_plots=1):
         plt.ion()
-        self.figure, self.ax = plt.subplots()
+        self.figure, self.axes = plt.subplots(num_plots,1, sharex=True)
+        # if not isinstance(self.axes, list):
+        #     self.axes = [self.axes]
         self.lines = []
-        self.ax.set_autoscaley_on(True)
-        self.ax.grid()
+        for ax in self.axes:
+            ax.set_autoscaley_on(True)
+            ax.grid()
         self.window_x = window_x
 
-        if title:
-            self.ax.set_title(title)
+        if isinstance(title, list) and len(title) == len(num_plots):
+            for index, ax in enumerate(self.axes):
+                ax.set_title(title[index])
+        else:
+            self.axes[0].set_title(title)
 
         if xlabel:
-            self.ax.set_xlabel(xlabel)
+            self.axes[-1].set_xlabel(xlabel)
 
-        if ylabel:
-            self.ax.set_ylabel(ylabel)
+        if isinstance(ylabel, list) and len(ylabel) == len(num_plots):
+            for index, ax in enumerate(self.axes):
+                ax.set_ylabel(ylabel[index])
+        elif ylabel:
+            self.axes[0].set_ylabel(ylabel)
+            
 
-    def add_line(self, label = 'lineName'):
-        line, = self.ax.plot([],[], label = label)
+    def add_line(self, label = 'lineName', ax_id=0):
+        line, = self.axes[ax_id].plot([],[], label = label)
         self.lines.append(DynamicLine(self.window_x, line))
-        self.ax.legend(loc='upper center')
+        self.axes[ax_id].legend(loc='upper center')
 
     ''' update
-     Accepts one y data point (eg. timestep) and an data array
+     Accepts one x data point (eg. timestep) and an data array
      which is ordered based on how the lines were added to the DynamicPlot
     '''
-    def update(self, y, data):
+    def update(self, x, data):
 
         for i in range(len(data)):
-            self.lines[i].add_point(y, data[i])
+            self.lines[i].add_point(x, data[i])
 
         #Need both of these in order to rescale
-        self.ax.relim()
-        self.ax.autoscale_view()
+        for ax in self.axes:
+            ax.relim()
+            ax.autoscale_view()
         #We need to draw *and* flush
         self.figure.canvas.draw()
         self.figure.canvas.flush_events()
